@@ -1,3 +1,7 @@
+// Most Optimized Iterative Version
+// For arbitrary x,y and m
+//In general m = 1e9+7
+
 long long modExpo (int x, int y, int m) {
     if (y == 0)
         return 1;
