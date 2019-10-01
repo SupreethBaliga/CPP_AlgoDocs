@@ -1,8 +1,3 @@
-//SAMPLE CODE TEMPLATE FOR DIJKSTRA'S ALGORITHM
-//MODIFY AS NEEDED
-
-
-
 /*************************BALIGA***************************************/
 #include <bits/stdc++.h>
 // use gp_hash_table<int,int,custom_hash> m;
@@ -66,35 +61,43 @@ void solve() {
 	cin>>n>>m>>l>>s>>t;
 	vipair edges[n];
 	vi visited(n,0);
-	set <pair<lli,lli>> heap;
-	vli dist(n,INF64);
+	vi parent(n);
+	priority_queue<pair<lli,lli>,vector<pair<lli,lli> >,greater<pair<lli,lli> > > heap;	vli dist(n,INF64);
 	dist[s]=0;
+	parent[s]=-1;
 	rep0(i,m) {
 		cin>>u>>v>>w;
 		edges[u].PB(MP(v,w));
 		edges[v].PB(MP(u,w));
 	}
-	int current,wt;
-	heap.insert(MP(0,s));
+	heap.push(MP(0,s));
 	while(!heap.empty()) {
-		auto tmp = *(heap.begin());
-		heap.erase(heap.begin());
+		auto tmp = heap.top();
+		heap.pop();
 		int vertex=tmp.second;
 		// cout<<vertex<<'\n';
+		if(visited[vertex]) continue;
+		visited[tmp.second]=1;
 		rep0(i,edges[vertex].size()) {
 			int v = edges[vertex][i].first;
 			if(!visited[v]) {
 				int weight = edges[vertex][i].second;
 				if(dist[v]>dist[vertex]+weight) {
-					if(dist[v]!=INF64) heap.erase(heap.find(MP(dist[v],v)));
+					parent[v]=vertex;
 					dist[v]=dist[vertex]+weight;
-					heap.insert(MP(dist[v],v));
+					heap.push(MP(dist[v],v));
 				}
 			}
 		}
-		visited[tmp.second]=1;
 	}
-	for(int i=0;i<n;i++) cout<<i<<' '<<dist[i]<<'\n';
+	for(int i=0;i<n;i++) cout<<i<<' '<<parent[i]<<' '<<dist[i]<<'\n';
+	// int ans=0,vt=t,flag=0,par;
+	// while(parent[vt]!=-1) {
+	// 	par=parent[vt];
+	// 	ans+=edges[vt][par];
+	// 	if(edges[vt][par]==0) flag=1;
+	// }
+	// if(flag==1 && ans<=l) 
 }
  
 int main()
